@@ -1,7 +1,19 @@
 package accounts;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "users")
 public class Account {
+
+    @Id
+    @Column(name="login", unique = true, updatable = false)
     private String login;
+
+    @Column(name="password")
     private String password;
 
     public Account(String login, String password) {
@@ -9,7 +21,7 @@ public class Account {
         this.password = password;
     }
 
-
+/*
     public String getLogin() {
         return login;
     }
@@ -17,4 +29,5 @@ public class Account {
     public String getPassword() {
         return password;
     }
+*/
 }
