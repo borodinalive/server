@@ -1,7 +1,6 @@
 import accounts.AccountService;
-import org.eclipse.jetty.server.Handler;
+import dao.DBService;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import servlets.RootPageServlet;
@@ -10,6 +9,8 @@ import servlets.SignUpServlet;
 
 public class EntryPoint {
     public static void main(String[] args) throws Exception {
+        DBService dbService = new DBService();
+
         int port = 3000;
         Server server = new Server(port);
 
@@ -25,9 +26,7 @@ public class EntryPoint {
         servletContextHandler.addServlet(new ServletHolder(signInServlet),"/signin");
         servletContextHandler.addServlet(new ServletHolder(signUpServlet),"/signup");
 
-        HandlerList handlers = new HandlerList( );
-        handlers.setHandlers( new Handler[] { servletContextHandler } );
-        server.setHandler( handlers );
+        server.setHandler(servletContextHandler);
 
         server.start();
         System.out.println("Creating server at port: " + port);
