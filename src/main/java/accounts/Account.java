@@ -21,7 +21,6 @@ public class Account {
         this.password = password;
     }
 
-/*
     public String getLogin() {
         return login;
     }
@@ -29,5 +28,5 @@ public class Account {
     public String getPassword() {
         return password;
     }
-*/
+
 }

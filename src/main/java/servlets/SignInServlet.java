@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class SignInServlet extends HttpServlet {
     private AccountService accountService;
@@ -27,10 +28,14 @@ public class SignInServlet extends HttpServlet {
             return;
         }
 
-        if (this.accountService.check(login, password)) {
-            res.setStatus(200);
-            res.getWriter().println("Authorized: " + login);
-            return;
+        try {
+            if (this.accountService.check(login, password)) {
+                res.setStatus(200);
+                res.getWriter().println("Authorized: " + login);
+                return;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         res.setStatus(401);

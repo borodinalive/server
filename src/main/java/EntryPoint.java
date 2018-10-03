@@ -9,8 +9,6 @@ import servlets.SignUpServlet;
 
 public class EntryPoint {
     public static void main(String[] args) throws Exception {
-        DBService dbService = new DBService();
-
         int port = 3000;
         Server server = new Server(port);
 

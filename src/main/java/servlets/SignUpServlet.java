@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class SignUpServlet extends HttpServlet {
     private AccountService accountService;
@@ -34,15 +35,23 @@ public class SignUpServlet extends HttpServlet {
             return;
         }
 
-        if (this.accountService.check(login)) {
-            res.setStatus(409);
-            res.getWriter().println("Пользователь с логином " + login + " уже существует.");
-            return;
+        try {
+            if (this.accountService.check(login)) {
+                res.setStatus(409);
+                res.getWriter().println("Пользователь с логином " + login + " уже существует.");
+                return;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         Account account = new Account(login, password);
 
-        this.accountService.save(account);
+        try {
+            this.accountService.save(account);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         res.setStatus(201);
     }
