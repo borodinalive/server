@@ -53,6 +53,6 @@ public class SignUpServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        res.setStatus(201);
+        res.setStatus(200);
     }
 }

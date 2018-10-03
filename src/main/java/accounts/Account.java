@@ -16,6 +16,8 @@ public class Account {
     @Column(name="password")
     private String password;
 
+    public Account() {}
+
     public Account(String login, String password) {
         this.login = login;
         this.password = password;
@@ -29,4 +31,11 @@ public class Account {
         return password;
     }
 
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

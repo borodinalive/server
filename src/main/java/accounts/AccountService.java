@@ -46,6 +46,9 @@ public class AccountService {
 
     public boolean check(String accountLogin, String accountPassword) throws SQLException {
         Account account = session.get(Account.class, accountLogin);
+        if (account == null) {
+            return false;
+        }
         return account.getPassword().equals(accountPassword);
     }
 
