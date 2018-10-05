@@ -1,5 +1,9 @@
 import accounts.AccountService;
+import chat.WebsocketChatServlet;
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import servlets.RootPageServlet;
@@ -19,11 +23,19 @@ public class EntryPoint {
         SignInServlet signInServlet = new SignInServlet(accountService);
         SignUpServlet signUpServlet = new SignUpServlet(accountService);
 
-        servletContextHandler.addServlet(new ServletHolder(rootPageServlet),"/");
-        servletContextHandler.addServlet(new ServletHolder(signInServlet),"/signin");
-        servletContextHandler.addServlet(new ServletHolder(signUpServlet),"/signup");
+        ResourceHandler resourceHandler = new ResourceHandler();
+        resourceHandler.setDirectoriesListed(true);
+        resourceHandler.setResourceBase("public_html");
 
-        server.setHandler(servletContextHandler);
+//        servletContextHandler.addServlet(new ServletHolder(rootPageServlet),"/");
+//        servletContextHandler.addServlet(new ServletHolder(signInServlet),"/signin");
+//        servletContextHandler.addServlet(new ServletHolder(signUpServlet),"/signup");
+        servletContextHandler.addServlet(new ServletHolder(new WebsocketChatServlet()),"/chat");
+
+        HandlerList handlerList = new HandlerList();
+        handlerList.setHandlers(new Handler[]{resourceHandler, servletContextHandler});
+
+        server.setHandler(handlerList);
 
         server.start();
         System.out.println("Creating server at port: " + port);
